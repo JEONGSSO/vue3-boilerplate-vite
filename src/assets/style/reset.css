@@ -1,0 +1,94 @@
+/* Reset */
+html,
+body {
+  font-family: hanSansRegular, Gulim, Helvetica, sans-serif;
+}
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+ul,
+dl,
+dd,
+p,
+th,
+td,
+form,
+button,
+input,
+textarea,
+fieldset,
+input,
+a,
+label,
+select {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  color: #333;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+li {
+  list-style: none;
+}
+button {
+  border: 0;
+  background: none;
+  outline-style: none;
+}
+button::-moz-focus-inner {
+  padding: 0 !important;
+  border: 0;
+}
+input {
+  outline-style: none;
+}
+textarea {
+  resize: none;
+  outline-style: none;
+}
+table {
+  border-collapse: collapse;
+}
+th,
+td {
+  vertical-align: middle;
+}
+th {
+  font-weight: normal;
+}
+button,
+label {
+  cursor: pointer;
+}
+em {
+  font-style: normal;
+}
+fieldset {
+  border: none;
+}
+legend {
+  display: none;
+}
+img {
+  border: none;
+  display: block;
+}
+caption {
+  display: none;
+}
+body {
+  -webkit-text-size-adjust: 100%;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  input {
+    letter-spacing: -0.5px;
+  }
+}

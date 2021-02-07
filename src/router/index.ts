@@ -2,7 +2,10 @@ import { defineAsyncComponent } from "vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 import HelloWorld from "../components/HelloWorld.vue";
-const Good = defineAsyncComponent(() => import("../components/Good.vue"));
+import TodoMain from "../components/todo/Main.vue";
+// const TodoMain = defineAsyncComponent(
+//   () => import("../components/todo/Main.vue")
+// );
 
 const routes: RouteRecordRaw[] = [
   {
@@ -11,9 +14,9 @@ const routes: RouteRecordRaw[] = [
     component: HelloWorld,
   },
   {
-    path: "/good",
-    name: "Good",
-    component: Good,
+    path: "/todo",
+    name: "todo",
+    component: TodoMain,
   },
 ];
 
