@@ -11,3 +11,5 @@ export default defineComponent({
   name: "App",
 });
 </script>
+
+<style src="./assets/style/reset.css"></style>
