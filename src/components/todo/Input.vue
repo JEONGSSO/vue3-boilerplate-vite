@@ -1,7 +1,12 @@
 <template>
   <div class="input_wrap">
     <label for="">
-      <input type="text" class="input" v-model="data.inputValue" />
+      <input
+        type="text"
+        class="input"
+        @keypress.enter="addTodo"
+        v-model="data.inputValue"
+      />
     </label>
     <button @click="addTodo" class="btn add_btn">+</button>
   </div>
