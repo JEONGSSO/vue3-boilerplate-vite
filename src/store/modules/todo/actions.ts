@@ -1,14 +1,15 @@
-// 비동기 처리시 actions
+import TODOTYPES from './types'
+const {ADD_TODO, REMOVE_TODO, MODIFY_TODO} = TODOTYPES;
 
 const actions = {
   addTodo({ commit }, payload: Object) {
-    commit("addTodo", payload);
+    commit(ADD_TODO, payload);
   },
   removeTodo({ commit }, idx: number) {
-    commit("removeTodo", idx);
+    commit(REMOVE_TODO, idx);
   },
   modifyTodo({ commit }, payload: Object) {
-    commit("modifyTodo", payload);
+    commit(MODIFY_TODO, payload);
   },
 };
 
