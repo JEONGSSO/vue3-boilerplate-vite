@@ -1,13 +1,13 @@
-type Todo = {
+export interface Todo {
   title: string;
   done: boolean;
 };
 
-type State = {
+export interface State {
   todoList: Array<Todo>;
 };
 
-const state: State = {
+export const state: State = {
   todoList: [
     {
       title: "vue3",

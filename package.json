@@ -2,7 +2,7 @@
   "name": "trello-clone2",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --config vite.config.js",
     "build": "vite build",
     "test": "jest"
   },

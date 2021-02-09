@@ -1,17 +1,17 @@
-import TODOTYPES from "./types";
-const { ADD_TODO, REMOVE_TODO, MODIFY_TODO } = TODOTYPES;
+import { State, Todo } from './state';
 
 const mutations = {
-  [ADD_TODO]({ todoList }, payload) {
+  // [ADD_TODO]({ todoList }, payload) {  이렇게쓰면 다른곳에서 타입을 못 찾음
+  ADD_TODO({ todoList }: State, payload: Todo) {
     todoList.push(payload);
   },
-  [REMOVE_TODO]({ todoList }, idx: number) {
+  REMOVE_TODO({ todoList }: State, idx: number) {
     todoList.splice(idx, 1);
   },
-  [MODIFY_TODO]({ todoList }, payload: Object) {
+  MODIFY_TODO({ todoList }: State, payload: Object) {
     // todo
     // todoList.push(payload);
-  },
+  }
 };
 
 export default mutations;

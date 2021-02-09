@@ -1,5 +1,5 @@
-import { ActionContext } from "vuex";
 import TODOTYPES from "./types";
+
 const { ADD_TODO, REMOVE_TODO, MODIFY_TODO } = TODOTYPES;
 
 const actions = {
