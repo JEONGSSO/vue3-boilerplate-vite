@@ -8,9 +8,11 @@ const mutations = {
   REMOVE_TODO({ todoList }: State, idx: number) {
     todoList.splice(idx, 1);
   },
-  MODIFY_TODO({ todoList }: State, payload: Object) {
-    // todo
-    // todoList.push(payload);
+  MODIFY_TODO({ todoList }: State, data: { idx: number; payload: Todo }) {
+    todoList[data.idx] = data.payload;
+  },
+  DONE_TOGGLE_TODO({ todoList }: State, isDone: boolean) {
+    todoList = todoList.filter(val => val.done === isDone);
   }
 };
 

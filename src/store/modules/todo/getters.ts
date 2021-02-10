@@ -1,5 +1,5 @@
 const getters = {
-    todoList: ({ todoList }) => todoList,
-}
+  todoList: ({ todoList }) => todoList
+};
 
-export default getters
+export default getters;

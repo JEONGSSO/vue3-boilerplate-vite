@@ -1,35 +1,42 @@
 <template>
   <ul class="list_wrap">
     <li v-for="(item, idx) in todoList" :key="idx">
-      <label :for="idx" class="label">
-        <input type="checkbox" name="done" :id="idx" />
-        {{ item.title }}
+      <label :for="idx" class="label" @click="e => modifyTodo(e, idx)">
+        <input type="checkbox" name="done" :id="idx" :checked="item.done" />
       </label>
+      <span :class="{ done: item.done }" @blur="e => modifyTodo(e, idx)">
+        {{ item.title }}
+      </span>
       <button @click="removeTodo(idx)" class="btn remove_btn">X</button>
     </li>
   </ul>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
+import { Todo } from '../../store/modules/todo/state';
 
 export default defineComponent({
-  name: "List",
+  name: 'List',
   setup() {
     const store = useStore();
 
-    const removeTodo = (idx: number) => store.dispatch("removeTodo", idx);
-    const modifyTodo = (updateValue: string, idx: number) => {
-      store.dispatch("modifyTodo", idx);
+    const removeTodo = (idx: number) => store.dispatch('removeTodo', idx);
+    const modifyTodo = (e: { target: HTMLInputElement }, idx: number) => {
+      const payload: Todo = {
+        title: e.target.innerText || store.getters.todoList[idx].title,
+        done: e.target.checked
+      };
+      store.dispatch('modifyTodo', { idx, payload });
     };
 
     return {
       removeTodo,
       modifyTodo,
-      todoList: computed(() => store.getters.todoList),
+      todoList: computed(() => store.getters.todoList) // TODO 반응하지 않는다
     };
-  },
+  }
 });
 </script>
 
@@ -44,6 +51,9 @@ export default defineComponent({
         position: relative;
         top: 3px;
       }
+    }
+    span.done {
+      text-decoration: underline;
     }
   }
   .btn {

@@ -9,7 +9,7 @@ import { State, state } from '../store/modules/todo/state';
 import mutations from '../store/modules/todo/mutations';
 
 import TODOTYPES from '../store/modules/todo/types';
-const { ADD_TODO, REMOVE_TODO, MODIFY_TODO } = TODOTYPES;
+const { ADD_TODO, REMOVE_TODO, MODIFY_TODO, DONE_TOGGLE_TODO } = TODOTYPES;
 
 const store = createStore({
   state,
@@ -17,56 +17,61 @@ const store = createStore({
 });
 
 // 실패 -> 성공 -> 리팩토링
-describe('mount testing', () => {
-  const state: State = {
-    todoList: [
-      { title: 'vue3', done: false },
-      { title: 'tdd', done: false },
-      { title: 'learn', done: false }
-    ]
-  };
-
-  it.skip('add Todo Item', () => {
+describe('todoList function test', () => {
+  it('add Todo Item', async () => {
     const payload: object = { title: 'Post', done: false };
-    mutations[ADD_TODO](state, payload);
+    await mutations[ADD_TODO](state, payload);
 
     expect(state).toEqual({
       todoList: [
         { title: 'vue3', done: false },
-        { title: 'tdd', done: false },
+        { title: 'tdd', done: true },
         { title: 'learn', done: false },
         { title: 'Post', done: false }
       ]
     });
   });
 
-  it.skip('delete Todo Item', () => {
+  it('delete Todo Item', async () => {
     const idx = 0;
 
-    // const wrapper: Component = mount(TodoList, {
-    //   global: {
-    //     plugins: [store]
-    //   }
-    // });
-
-    mutations[REMOVE_TODO](state, idx);
+    await mutations[REMOVE_TODO](state, idx);
     expect(state).toEqual({
       todoList: [
-        {
-          title: 'tdd',
-          done: false
-        },
-        {
-          title: 'learn',
-          done: false
-        }
+        { title: 'tdd', done: true },
+        { title: 'learn', done: false },
+        { title: 'Post', done: false }
       ]
     });
   });
 
-  it('Modify Todo Item', () => {
-    const payload = { title: 'tdd', done: true };
-    mutations[MODIFY_TODO](state, payload);
-    expect(state.todoList[2].done).toBe(true);
+  it('Modify Todo Item', async () => {
+    const idx = 1;
+    const payload = { title: 'learn', done: true };
+    await mutations[MODIFY_TODO](state, { idx, payload });
+    expect(state.todoList[idx].done).toBe(true);
+  });
+
+  it('done Toggle Filter ', async () => {
+    const store = createStore({
+      state,
+      mutations: {
+        DONE_TOGGLE_TODO({ todoList }) {
+          todoList = todoList.filter(val => val.done);
+        }
+      },
+      getters: {
+        todoList: ({ todoList }) => todoList
+      }
+    });
+
+    await store.commit(DONE_TOGGLE_TODO);
+
+    expect(store.getters.todoList).toEqual({
+      todoList: [
+        { title: 'tdd', done: true },
+        { title: 'learn', done: true }
+      ]
+    });
   });
 });

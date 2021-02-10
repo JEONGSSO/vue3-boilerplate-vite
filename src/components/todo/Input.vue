@@ -1,50 +1,46 @@
 <template>
   <div class="input_wrap">
-    <label for="">
-      <input
-        type="text"
-        class="input"
-        @keypress.enter="addTodo"
-        v-model="data.inputValue"
-      />
-    </label>
+    <input type="text" class="input" @keypress.enter="addTodo" v-model="data.inputValue" />
     <button @click="addTodo" class="btn add_btn">+</button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from "vue";
-import { useStore } from "vuex";
+import { defineComponent, ref, reactive } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
-  name: "Input",
+  name: 'Input',
   setup() {
     const store = useStore();
     const data = reactive({
-      inputValue: "",
+      inputValue: ''
     });
 
     const addTodo = () => {
-      store.dispatch("addTodo", { title: data.inputValue, done: false });
-      data.inputValue = "";
+      store.dispatch('addTodo', { title: data.inputValue, done: false });
+      data.inputValue = '';
     };
 
     return {
       data,
-      addTodo,
+      addTodo
     };
-  },
+  }
 });
 </script>
 
 <style lang="scss" scoped>
 .input_wrap {
+  display: flex;
+  justify-content: center;
   height: 30px;
   padding: 8px 0;
 
   .input {
     width: 50%;
     height: 100%;
+    padding: 0 10px;
     box-sizing: border-box;
   }
 
@@ -52,10 +48,13 @@ export default defineComponent({
     width: 30px;
     height: 100%;
     &.add_btn {
-      font-size: 16px;
-      color: blue;
+      margin-left: 8px;
+      border: solid 1px #000;
+      border-radius: 4px;
+      font-size: 20px;
+      color: #7cb2d6;
       &:hover {
-        background-color: rgb(194, 201, 201);
+        background-color: rgb(0, 0, 0, 0.2);
       }
     }
   }
