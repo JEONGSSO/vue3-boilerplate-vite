@@ -13,7 +13,7 @@ const actions = {
   modifyTodo({ commit }, payload: Todo) {
     commit(MODIFY_TODO, payload);
   },
-  doneToggleTOdo({ commit }, isDone: boolean) {
+  doneToggleTodo({ commit }, isDone: boolean) {
     commit(DONE_TOGGLE_TODO, isDone);
   }
 };

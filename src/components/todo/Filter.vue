@@ -8,17 +8,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
   setup() {
     const store = useStore();
-    const isActive = ref(false);
+    const isActive = computed(() => store.getters.doneView);
 
     const activeToggle = () => {
-      isActive.value = !isActive.value;
-      store.dispatch('doneToggleTOdo', isActive.value);
+      store.dispatch('doneToggleTodo', !isActive.value);
     };
 
     return {

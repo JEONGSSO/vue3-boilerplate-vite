@@ -11,8 +11,9 @@ const mutations = {
   MODIFY_TODO({ todoList }: State, data: { idx: number; payload: Todo }) {
     todoList[data.idx] = data.payload;
   },
-  DONE_TOGGLE_TODO({ todoList }: State, isDone: boolean) {
-    todoList = todoList.filter(val => val.done === isDone);
+  DONE_TOGGLE_TODO(state: State, doneView: boolean) {
+    // { todoList } 구조 분해 할당 반응성을 가지지 않는듯.
+    state.doneView = doneView;
   }
 };
 

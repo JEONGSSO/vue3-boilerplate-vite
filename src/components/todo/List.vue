@@ -1,14 +1,16 @@
 <template>
   <ul class="list_wrap">
-    <li v-for="(item, idx) in todoList" :key="idx">
-      <label :for="idx" class="label" @click="e => modifyTodo(e, idx)">
-        <input type="checkbox" name="done" :id="idx" :checked="item.done" />
-      </label>
-      <span :class="{ done: item.done }" @blur="e => modifyTodo(e, idx)">
-        {{ item.title }}
-      </span>
-      <button @click="removeTodo(idx)" class="btn remove_btn">X</button>
-    </li>
+    <template v-for="(item, idx) in todoList" :key="idx">
+      <li v-if="item.done === doneView">
+        <label :for="idx" class="label" @click="e => modifyTodo(e, idx)">
+          <input type="checkbox" name="done" :id="idx" :checked="item.done" />
+        </label>
+        <span :class="{ done: item.done }" @blur="e => modifyTodo(e, idx)">
+          {{ item.title }}
+        </span>
+        <button @click="removeTodo(idx)" class="btn remove_btn">X</button>
+      </li>
+    </template>
   </ul>
 </template>
 
@@ -21,6 +23,8 @@ export default defineComponent({
   name: 'List',
   setup() {
     const store = useStore();
+    const todoList = computed(() => store.getters.todoList);
+    const doneView = computed(() => store.getters.doneView);
 
     const removeTodo = (idx: number) => store.dispatch('removeTodo', idx);
     const modifyTodo = (e: { target: HTMLInputElement }, idx: number) => {
@@ -34,7 +38,8 @@ export default defineComponent({
     return {
       removeTodo,
       modifyTodo,
-      todoList: computed(() => store.getters.todoList) // TODO 반응하지 않는다
+      todoList,
+      doneView
     };
   }
 });

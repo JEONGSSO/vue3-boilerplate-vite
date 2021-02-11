@@ -14,7 +14,7 @@ import List from './List.vue';
 import Filter from './Filter.vue';
 
 export default defineComponent({
-  name: 'Input',
+  name: 'Main',
   components: {
     TodoInput,
     List,

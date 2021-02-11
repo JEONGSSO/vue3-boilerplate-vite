@@ -7,14 +7,10 @@ import TodoList from '../components/todo/List.vue';
 
 import { State, state } from '../store/modules/todo/state';
 import mutations from '../store/modules/todo/mutations';
+import getters from '../store/modules/todo/getters';
 
 import TODOTYPES from '../store/modules/todo/types';
 const { ADD_TODO, REMOVE_TODO, MODIFY_TODO, DONE_TOGGLE_TODO } = TODOTYPES;
-
-const store = createStore({
-  state,
-  mutations
-});
 
 // 실패 -> 성공 -> 리팩토링
 describe('todoList function test', () => {
@@ -22,27 +18,23 @@ describe('todoList function test', () => {
     const payload: object = { title: 'Post', done: false };
     await mutations[ADD_TODO](state, payload);
 
-    expect(state).toEqual({
-      todoList: [
-        { title: 'vue3', done: false },
-        { title: 'tdd', done: true },
-        { title: 'learn', done: false },
-        { title: 'Post', done: false }
-      ]
-    });
+    expect(state.todoList).toEqual([
+      { title: 'vue3', done: false },
+      { title: 'tdd', done: true },
+      { title: 'learn', done: false },
+      { title: 'Post', done: false }
+    ]);
   });
 
   it('delete Todo Item', async () => {
     const idx = 0;
 
     await mutations[REMOVE_TODO](state, idx);
-    expect(state).toEqual({
-      todoList: [
-        { title: 'tdd', done: true },
-        { title: 'learn', done: false },
-        { title: 'Post', done: false }
-      ]
-    });
+    expect(state.todoList).toEqual([
+      { title: 'tdd', done: true },
+      { title: 'learn', done: false },
+      { title: 'Post', done: false }
+    ]);
   });
 
   it('Modify Todo Item', async () => {
@@ -56,8 +48,8 @@ describe('todoList function test', () => {
     const store = createStore({
       state,
       mutations: {
-        DONE_TOGGLE_TODO({ todoList }) {
-          todoList = todoList.filter(val => val.done);
+        DONE_TOGGLE_TODO(state) {
+          state.todoList = state.todoList.filter(val => val.done);
         }
       },
       getters: {
@@ -67,11 +59,26 @@ describe('todoList function test', () => {
 
     await store.commit(DONE_TOGGLE_TODO);
 
-    expect(store.getters.todoList).toEqual({
-      todoList: [
-        { title: 'tdd', done: true },
-        { title: 'learn', done: true }
-      ]
+    expect(store.getters.todoList).toEqual([
+      { title: 'tdd', done: true },
+      { title: 'learn', done: true }
+    ]);
+  });
+
+  it('doneView', async () => {
+    const store = createStore({
+      state,
+      mutations,
+      getters
     });
+
+    // const wrapper: Component = mount(TodoList, {
+    //   global: {
+    //     plugins: [store]
+    //   }
+    // });
+
+    await store.commit(DONE_TOGGLE_TODO, true);
+    expect(store.state.doneView).toBe(true);
   });
 });

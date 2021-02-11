@@ -6,6 +6,7 @@ export interface Todo {
 
 export interface State {
   todoList: Array<Todo>;
+  doneView: boolean;
 }
 
 export const state: State = {
@@ -13,7 +14,8 @@ export const state: State = {
     { title: 'vue3', done: false },
     { title: 'tdd', done: true },
     { title: 'learn', done: false }
-  ]
+  ],
+  doneView: false
 };
 
 export default state;
