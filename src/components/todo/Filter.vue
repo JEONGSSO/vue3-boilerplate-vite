@@ -1,9 +1,9 @@
 <template>
   <div class="toggle_wrap">
     완료목록 보기
-    <div class="button" :class="{ active: isActive }" @click="activeToggle">
+    <button class="btn" :class="{ active: isActive }" @click="activeToggle">
       <span class="ball"></span>
-    </div>
+    </button>
   </div>
 </template>
 
@@ -16,8 +16,8 @@ export default defineComponent({
     const store = useStore();
     const isActive = computed(() => store.getters.doneView);
 
-    const activeToggle = () => {
-      store.dispatch('doneToggleTodo', !isActive.value);
+    const activeToggle = async () => {
+      await store.dispatch('doneToggleTodo', !isActive.value);
     };
 
     return {
@@ -33,20 +33,20 @@ export default defineComponent({
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  .button {
+  .btn {
     position: relative;
     width: 50px;
     height: 20px;
     border: solid 1px #000;
     border-radius: 20px;
-    cursor: pointer;
     .ball {
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: rgb(226, 216, 216);
-      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      top: 0;
       left: 2px;
+      border-radius: 50%;
+      background-color: rgb(226, 216, 216);
       transition: left 0.5s;
     }
     &.active .ball {

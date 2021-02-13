@@ -1,19 +1,35 @@
 import { Component } from 'vue';
-import { createStore } from 'vuex';
-import { mount } from '@vue/test-utils';
+import { createStore, StoreOptions } from 'vuex';
+import { mount, DOMWrapper, shallowMount } from '@vue/test-utils';
+
+import { State, state } from '../store/modules/todo/state';
+import actions from '../store/modules/todo/actions';
+import mutations from '../store/modules/todo/mutations';
+import getters from '../store/modules/todo/getters';
 
 import TodoMain from '../components/todo/Main.vue';
 import TodoList from '../components/todo/List.vue';
-
-import { State, state } from '../store/modules/todo/state';
-import mutations from '../store/modules/todo/mutations';
-import getters from '../store/modules/todo/getters';
+import TodoFilter from '../components/todo/Filter.vue';
 
 import TODOTYPES from '../store/modules/todo/types';
 const { ADD_TODO, REMOVE_TODO, MODIFY_TODO, DONE_TOGGLE_TODO } = TODOTYPES;
 
 // 실패 -> 성공 -> 리팩토링
 describe('todoList function test', () => {
+  const store = createStore({
+    state,
+    actions,
+    mutations,
+    getters
+  });
+
+  const mountOption = (store: object): object => {
+    return {
+      global: {
+        plugins: [store]
+      }
+    };
+  };
   it('add Todo Item', async () => {
     const payload: object = { title: 'Post', done: false };
     await mutations[ADD_TODO](state, payload);
@@ -44,41 +60,11 @@ describe('todoList function test', () => {
     expect(state.todoList[idx].done).toBe(true);
   });
 
-  it('done Toggle Filter ', async () => {
-    const store = createStore({
-      state,
-      mutations: {
-        DONE_TOGGLE_TODO(state) {
-          state.todoList = state.todoList.filter(val => val.done);
-        }
-      },
-      getters: {
-        todoList: ({ todoList }) => todoList
-      }
-    });
+  it('done list after button click', async () => {
+    const wrapper: Component = mount(TodoFilter, mountOption(store));
 
-    await store.commit(DONE_TOGGLE_TODO);
-
-    expect(store.getters.todoList).toEqual([
-      { title: 'tdd', done: true },
-      { title: 'learn', done: true }
-    ]);
-  });
-
-  it('doneView', async () => {
-    const store = createStore({
-      state,
-      mutations,
-      getters
-    });
-
-    // const wrapper: Component = mount(TodoList, {
-    //   global: {
-    //     plugins: [store]
-    //   }
-    // });
-
-    await store.commit(DONE_TOGGLE_TODO, true);
+    const target: DOMWrapper<Element> = wrapper.find('.toggle_wrap button');
+    await target.trigger('click');
     expect(store.state.doneView).toBe(true);
   });
 });
