@@ -1,5 +1,5 @@
 import { Component } from 'vue';
-import { createStore, StoreOptions } from 'vuex';
+import { createStore } from 'vuex';
 import { mount, DOMWrapper, shallowMount } from '@vue/test-utils';
 
 import { State, state } from '../store/modules/todo/state';
@@ -10,9 +10,6 @@ import getters from '../store/modules/todo/getters';
 import TodoMain from '../components/todo/Main.vue';
 import TodoList from '../components/todo/List.vue';
 import TodoFilter from '../components/todo/Filter.vue';
-
-import TODOTYPES from '../store/modules/todo/types';
-const { ADD_TODO, REMOVE_TODO, MODIFY_TODO, DONE_TOGGLE_TODO } = TODOTYPES;
 
 // 실패 -> 성공 -> 리팩토링
 describe('todoList function test', () => {
@@ -30,9 +27,10 @@ describe('todoList function test', () => {
       }
     };
   };
+
   it('add Todo Item', async () => {
     const payload: object = { title: 'Post', done: false };
-    await mutations[ADD_TODO](state, payload);
+    await store.dispatch('addTodo', payload);
 
     expect(state.todoList).toEqual([
       { title: 'vue3', done: false },
@@ -45,7 +43,7 @@ describe('todoList function test', () => {
   it('delete Todo Item', async () => {
     const idx = 0;
 
-    await mutations[REMOVE_TODO](state, idx);
+    await store.dispatch('removeTodo', idx);
     expect(state.todoList).toEqual([
       { title: 'tdd', done: true },
       { title: 'learn', done: false },
@@ -56,13 +54,12 @@ describe('todoList function test', () => {
   it('Modify Todo Item', async () => {
     const idx = 1;
     const payload = { title: 'learn', done: true };
-    await mutations[MODIFY_TODO](state, { idx, payload });
+    await store.dispatch('modifyTodo', { idx, payload });
     expect(state.todoList[idx].done).toBe(true);
   });
 
   it('done list after button click', async () => {
     const wrapper: Component = mount(TodoFilter, mountOption(store));
-
     const target: DOMWrapper<Element> = wrapper.find('.toggle_wrap button');
     await target.trigger('click');
     expect(store.state.doneView).toBe(true);
