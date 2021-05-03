@@ -5,23 +5,37 @@
     <p>ccc</p>
     <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
     <p>bbb</p>
-    <p>cccaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</br>
-    aaaaaaaaaa</br>aaaaaaaa</br>aaaaaaaaaaaa</br>aaaaaaaaaaa</p>
+    <p>
+      cccaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br />
+      aaaaaaaaaa<br />aaaaaaaa<br />aaaaaaaaaaaa<br />aaaaaaaaaaa
+    </p>
     <p>aaa</p>
     <p>bbbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
     <p>ccc</p>
+    <Test @save="good"></Test>
   </section>
 </template>
 
 <script lang="ts">
 import { ref, defineComponent } from 'vue';
 
+import Test from './Test.vue';
+
 export default defineComponent({
   name: 'HelloWorld',
+  components: {
+    Test
+  },
   setup() {
     const count = ref(0);
+
+    const good = good => {
+      console.log(good);
+    };
+
     return {
-      count
+      count,
+      good
     };
   }
 });
